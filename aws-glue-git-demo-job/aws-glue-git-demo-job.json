@@ -1,0 +1,41 @@
+{
+  "name" : "aws-glue-git-demo-job",
+  "description" : "",
+  "role" : "arn:aws:iam::691455637737:role/GlueBlogRole",
+  "executionProperty" : {
+    "maxConcurrentRuns" : 1
+  },
+  "command" : {
+    "name" : "glueetl",
+    "scriptLocation" : "s3://aws-glue-assets-691455637737-us-east-1/scripts/aws-glue-git-demo-job.py",
+    "pythonVersion" : "3"
+  },
+  "defaultArguments" : {
+    "--enable-metrics" : "true",
+    "--enable-spark-ui" : "true",
+    "--spark-event-logs-path" : "s3://aws-glue-assets-691455637737-us-east-1/sparkHistoryLogs/",
+    "--enable-job-insights" : "true",
+    "--enable-glue-datacatalog" : "true",
+    "--enable-continuous-cloudwatch-log" : "true",
+    "--job-bookmark-option" : "job-bookmark-disable",
+    "--job-language" : "python",
+    "--TempDir" : "s3://aws-glue-assets-691455637737-us-east-1/temporary/",
+    "--source.database.name" : "torontoparking",
+    "--souce.table.name" : "tickets"
+  },
+  "maxRetries" : 0,
+  "allocatedCapacity" : 10,
+  "timeout" : 2880,
+  "maxCapacity" : 10.0,
+  "glueVersion" : "3.0",
+  "numberOfWorkers" : 10,
+  "workerType" : "G.1X",
+  "executionClass" : "STANDARD",
+  "codeGenConfigurationNodes" : "{\"node-1679651499975\":{\"S3GlueParquetTarget\":{\"Compression\":\"none\",\"Inputs\":[\"node-1679651428362\"],\"Name\":\"Amazon S3\",\"PartitionKeys\":[],\"Path\":\"s3://glue-version-blog-691455637737/output/\",\"SchemaChangePolicy\":{\"EnableUpdateCatalog\":false}}},\"node-1679651271407\":{\"CatalogSource\":{\"Database\":\"${source.database.name}\",\"Name\":\"AWS Glue Data Catalog\",\"Table\":\"${souce.table.name}\"}},\"node-1679651428362\":{\"Filter\":{\"Filters\":[{\"Negated\":false,\"Operation\":\"REGEX\",\"Values\":[{\"Type\":\"CONSTANT\",\"Value\":[\"PARK ON PRIVATE PROPERTY\"]},{\"Type\":\"COLUMNEXTRACTED\",\"Value\":[\"infraction_description\"]}]}],\"Inputs\":[\"node-1679651271407\"],\"LogicalOperator\":\"AND\",\"Name\":\"Filter\"}}}",
+  "sourceControlDetails" : {
+    "provider" : "GITHUB",
+    "repository" : "glue-ver-log",
+    "branch" : "dev",
+    "folder" : "aws-glue-git-demo-job"
+  }
+}
